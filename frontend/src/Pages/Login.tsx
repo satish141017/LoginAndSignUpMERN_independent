@@ -9,7 +9,7 @@ import Switch from "../compnent/Switch";
 function Login() {
     return (
 
-        <div className="flex justify-center items-center text-base font-sans  w-screen h-screen ">
+        <div className="flex justify-center items-center text-base font-sans  ">
             <div className="w-auto sm:w-96">
                 <Heading text="LogIn" />
                 <About text="Login to our website" />
@@ -17,7 +17,7 @@ function Login() {
                 <InputBox placeHolder='Password' label='password' />
 
                 <Button text="LogIn" />
-                <Switch text="Dont have an account ? " buttonText="Create New" />
+
 
             </div>
         </div >
