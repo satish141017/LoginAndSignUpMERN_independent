@@ -77,6 +77,14 @@ function verifySchema(req) {
  * @param {Function} next - The next middleware function.
  */
 async function userDatabaseCheckMiddleWare(req, res, next) {
+    if (!req.headers.username) {
+        res.json({
+            success: false,
+
+            msg: "Wrong Input"
+        });
+        return;
+    }
     const data = await User.findOne({
         '$or': [{
             username: req.headers.username
@@ -111,6 +119,14 @@ async function userDatabaseCheckMiddleWare(req, res, next) {
  * @returns {Object} - An object containing the check result.
  */
 async function userDatabaseCheck(username, password) {
+    if (!username) {
+        res.json({
+            success: false,
+
+            msg: "Wrong Input"
+        });
+        return;
+    }
     const data = await User.findOne({
         '$or': [{
             username: username
@@ -147,6 +163,14 @@ async function userDatabaseCheck(username, password) {
  * @returns {Object} - An object containing the result of the add  user operation.
  */
 async function addUser(user) {
+    if (!user.username) {
+        res.json({
+            success: false,
+
+            msg: "Wrong Input"
+        });
+        return;
+    }
     try {
         const data = await User.findOne({
             '$or': [{
