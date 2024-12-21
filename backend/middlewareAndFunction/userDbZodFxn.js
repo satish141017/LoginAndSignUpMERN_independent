@@ -44,7 +44,7 @@ function verifySchemaMiddleware(req, res, next) {
         next();
         return;
     }
-    res.json({
+    res.status(400).json({
         success: false,
         msg: "User schema is not in the correct format"
     });
@@ -77,10 +77,10 @@ function verifySchema(req) {
  * @param {Function} next - The next middleware function.
  */
 async function userDatabaseCheckMiddleWare(req, res, next) {
+    // console.log(req.headers);
     if (!req.headers.username) {
-        res.json({
+        res.status(400).json({
             success: false,
-
             msg: "Wrong Input"
         });
         return;
@@ -96,14 +96,14 @@ async function userDatabaseCheckMiddleWare(req, res, next) {
     if (data && data.password === req.headers.password) {
         next();
     } else if (data) {
-        res.json({
+        res.status(401).json({
             success: false,
             userMatch: true,
             passMatch: false,
             msg: "username match but pass does not"
         });
     } else {
-        res.json({
+        res.status(404).json({
             success: false,
             userMatch: false,
             passMatch: false,
@@ -120,9 +120,8 @@ async function userDatabaseCheckMiddleWare(req, res, next) {
  */
 async function userDatabaseCheck(username, password) {
     if (!username) {
-        res.json({
+        res.status(400).json({
             success: false,
-
             msg: "Wrong Input"
         });
         return;
@@ -160,13 +159,12 @@ async function userDatabaseCheck(username, password) {
 /**
  * Adds a new user to the database.
  * @param {Object} user - The user object.
- * @returns {Object} - An object containing the result of the add  user operation.
+ * @returns {Object} - An object containing the result of the add user operation.
  */
 async function addUser(user) {
     if (!user.username) {
-        res.json({
+        res.status(400).json({
             success: false,
-
             msg: "Wrong Input"
         });
         return;

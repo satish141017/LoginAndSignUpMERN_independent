@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 require('dotenv').config();
 
 /**
@@ -12,16 +11,28 @@ require('dotenv').config();
  * @param {Function} next - The next middleware function.
  */
 function userjwtauthmiddleware(req, res, next) {
-    const authtoken = req.headers.token.split(' ')[1];
-    const data = jwt.verify(authtoken, process.env.SECRET_JWT);
-
-    if (data.username) {
-        next();
-        return;
-    } else {
-        res.status(401).json({
+    if (!req.headers.token) {
+        return res.status(401).json({
             success: false,
             msg: "Authentication failed, please login to continue",
+        });
+    }
+    const authtoken = req.headers.token.split(' ')[1];
+    try {
+        const data = jwt.verify(authtoken, process.env.SECRET_JWT);
+        if (data.username) {
+            next();
+            return;
+        } else {
+            return res.status(401).json({
+                success: false,
+                msg: "Authentication failed, please login to continue",
+            });
+        }
+    } catch (err) {
+        return res.status(401).json({
+            success: false,
+            msg: "Invalid or expired token",
         });
     }
 }
@@ -73,4 +84,4 @@ module.exports = {
     userjwtauthmiddleware,
     assignToken,
     verifyToken
-}
+};

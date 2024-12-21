@@ -1,24 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import InputBox from "../compnent/InputBox";
 import Button from "../compnent/Button";
 import Heading from "../compnent/Heading";
 import About from "../compnent/About";
 import Switch from "../compnent/Switch";
+import { signupapi } from "../services/apiServices";
+import { useNavigate } from "react-router-dom";
+
 function Signup() {
-    return <div className="flex justify-center items-center text-base font-sans ">
-        <div className="w-auto sm:w-96">
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const [address, setAddress] = useState("");
+    const user = {};
+    return <div className="flex justify-center items-center text-base font-sans  w-screen h-screen">
+        <form className="w-auto sm:w-96" onSubmit={(e) => e.preventDefault()}>
             <Heading text="SignUp" />
             <About text="Create a new Accout" />
-            <InputBox placeHolder='Email' label='email' />
-            <InputBox placeHolder='username' label='username' />
-            <InputBox placeHolder='Full Name' label='name' />
-            <InputBox placeHolder='password' label='password' />
-            <InputBox placeHolder='address' label='address' />
-            <Button text="Signup" />
+            <InputBox onChange={(e) => setEmail(e.target.value)} placeHolder='Email' label='email' />
+            <InputBox onChange={(e) => setUsername(e.target.value)} placeHolder='username' label='username' />
+            <InputBox onChange={(e) => setName(e.target.value)} placeHolder='Full Name' label='name' />
+            <InputBox onChange={(e) => setPassword(e.target.value)} placeHolder='password' label='password' />
+            <InputBox onChange={(e) => setAddress(e.target.value)} placeHolder='address' label='address' />
+            <Button onClick={async () => {
+                const user = { email, username, name, password, address }
+                const res = await signupapi(user);
+                // here store the data in the localStorage
+                console.log(res);
+                if (res.success) navigate('/otherRoute')
+            }} text="Signup" />
+            <Switch login={false} />
 
 
 
-        </div>
+        </form>
     </div >
 
 

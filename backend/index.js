@@ -43,6 +43,7 @@ app.post('/signin', userDatabaseCheckMiddleWare, function (req, res) {
     //     'username' : username or email,
     //     'password' : password
     // }
+
     const token = assignToken({
         username: req.headers.username,
     });
@@ -56,6 +57,7 @@ app.get('/otherRoute', userjwtauthmiddleware, function (req, res) {
     // expect {
     // token : "jwttoken with Bearer written in the front"}
     res.json({
+        success: true,
         msg: "Able to verify the auth token"
     });
 });

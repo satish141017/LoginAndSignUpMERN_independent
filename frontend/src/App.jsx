@@ -1,25 +1,20 @@
-import React, { useState } from 'react'
-import Switch from './compnent/Switch'
-import Login from './Pages/Login'
-import Signup from './Pages/Signup'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import OtherRoute from './Pages/OtherRoute';
+
 function App() {
-
-
-  const [login, setLogin] = useState(true)
   return (
-    <div className='w-screen h-screen flex justify-center items-center'>
-      <div>
-        {login == true ? <Login /> : <Signup />}
-
-        <Switch login={login} setLogin={setLogin} />
-      </div>
-
-    </div>
-  )
-
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<OtherRoute />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/signin' element={<Login />} />
+        <Route path='/otherRoute' element={<OtherRoute />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-
-
-
-export default App
+export default App;

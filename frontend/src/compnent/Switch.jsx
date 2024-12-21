@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Switch({ login, setLogin }) {
+function Switch({ login }) {
+    const navigate = useNavigate();
+
     return (
         <div className="flex justify-center items-center">
             <span className="text-gray-700 mr-2">
@@ -8,7 +11,7 @@ function Switch({ login, setLogin }) {
             </span>
             <span
                 className="text-blue-700 cursor-pointer"
-                onClick={() => setLogin(l => !l)}
+                onClick={() => login ? navigate('/signup') : navigate('/signin')}
             >
                 {login ? "Sign Up" : "Log In"}
             </span>
