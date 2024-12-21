@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import InputBox from "../compnent/InputBox";
-import Button from "../compnent/Button";
-import Heading from "../compnent/Heading";
-import About from "../compnent/About";
-import Switch from "../compnent/Switch";
+import InputBox from "../component/InputBox";
+import Button from "../component/Button";
+import Heading from "../component/Heading";
+import About from "../component/About";
+import Switch from "../component/Switch";
 import { signinapi } from "../services/apiServices"
 import { useNavigate } from "react-router-dom";
+import { log } from "console";
 
 function Login() {
     const navigate = useNavigate();
@@ -20,15 +21,21 @@ function Login() {
                 <InputBox onChange={(e) => setUsername(e.target.value)} placeHolder='Username or Email' label='username' />
                 <InputBox onChange={(e) => setPassword(e.target.value)} placeHolder='Password' label='password' />
 
-                <Button onClick={async () => {
-                    const user = { username, password }
-                    console.log('a');
-                    const res = await signinapi(user);
-                    console.log('Z');
+                <Button
+                    onClick={async () => {
+                        const user = { username, password };
+                        console.log(user);
 
-                    console.log(res);
-                    if (res.success) navigate('/otherRoute')
-                }} text="LogIn" />
+                        const res = await signinapi(user);
+                        console.log(res);
+
+                        if (res.success) {
+                            navigate('/otherRoute');
+                        } else {
+
+                        }
+                    }}
+                    text="LogIn" />
                 <Switch login={true} />
 
             </form>

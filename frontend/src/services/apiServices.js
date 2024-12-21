@@ -5,60 +5,54 @@ const POST_OTHER_ROUTE = "http://localhost:3000/otherRoute";
 
 async function signupapi(user) {
     try {
-        console.log('c');
         const res = await axios.post(SIGN_UP_URL, user);
-        console.log('d');
         localStorage.setItem("token", res.data.token);
-        console.log('e');
         return res.data;
     } catch (error) {
-        console.log('errrrrrrrr');
-        console.error("Error during signin:", error);
+        console.error("Error during signup:", error);
         throw error;
     }
 }
 
 async function signinapi(user) {
     try {
-        console.log('c');
+        console.log(user);
         const res = await axios.post(SIGN_IN_URL, {}, {
-            headers: user
-        });
-        if (!res.data.token) {
-            return {
-                success: false
+            headers: {
+                ...user
             }
+        });
+
+        localStorage.setItem("token", res.data.token);
+        return res.data;
+
+    } catch (error) {
+
+        console.error("Error during signin:", error);
+        return {
+            success: false,
+            msg: "Invalid Credentials"
         }
 
-        console.log('d');
-        localStorage.setItem("token", res.data.token);
-        console.log('e');
-        return res.data;
-    } catch (error) {
-        console.log('errrrrrrrrrrrrrrrrr');
-        console.error("Error during signin:", error);
-        throw error;
     }
 }
+
 async function accessOtherRoute() {
     try {
-        console.log('hiiiiiiiiiiiiiii');
-        const val = localStorage.getItem('token')
-        // console.log('hiiiiiiiiiiiiiii');
-        console.log(val);
-        const res = await axios.get(POST_OTHER_ROUTE, {}, {
+
+
+        const val = localStorage.getItem('token');
+
+
+        const res = await axios.get(POST_OTHER_ROUTE, {
             headers: { token: val }
-        })
-        console.log(res);
-        return res;
+        });
+
+        return res.data;
     } catch (error) {
-        console.error("Error during signin:", error);
+        console.error("Error during accessOtherRoute:", error);
         throw error;
     }
-
-
 }
-
-
 
 export { signupapi, signinapi, accessOtherRoute };

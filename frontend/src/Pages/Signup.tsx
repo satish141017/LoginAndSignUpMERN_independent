@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import InputBox from "../compnent/InputBox";
-import Button from "../compnent/Button";
-import Heading from "../compnent/Heading";
-import About from "../compnent/About";
-import Switch from "../compnent/Switch";
+import InputBox from "../component/InputBox";
+import Button from "../component/Button";
+import Heading from "../component/Heading";
+import About from "../component/About";
+import Switch from "../component/Switch";
 import { signupapi } from "../services/apiServices";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +28,7 @@ function Signup() {
                 const user = { email, username, name, password, address }
                 const res = await signupapi(user);
                 // here store the data in the localStorage
-                console.log(res);
+                // console.log(res);
                 if (res.success) navigate('/otherRoute')
             }} text="Signup" />
             <Switch login={false} />
