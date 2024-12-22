@@ -10,13 +10,13 @@ async function signupapi(user) {
         return res.data;
     } catch (error) {
         console.error("Error during signup:", error);
-        throw error;
+        return error.response.data;
     }
 }
 
 async function signinapi(user) {
     try {
-        console.log(user);
+
         const res = await axios.post(SIGN_IN_URL, {}, {
             headers: {
                 ...user
@@ -29,21 +29,13 @@ async function signinapi(user) {
     } catch (error) {
 
         console.error("Error during signin:", error);
-        return {
-            success: false,
-            msg: "Invalid Credentials"
-        }
-
+        return error.response.data;
     }
 }
 
 async function accessOtherRoute() {
     try {
-
-
         const val = localStorage.getItem('token');
-
-
         const res = await axios.get(POST_OTHER_ROUTE, {
             headers: { token: val }
         });
@@ -51,7 +43,9 @@ async function accessOtherRoute() {
         return res.data;
     } catch (error) {
         console.error("Error during accessOtherRoute:", error);
-        throw error;
+        return error.response.data;
+
+        // throw error;
     }
 }
 

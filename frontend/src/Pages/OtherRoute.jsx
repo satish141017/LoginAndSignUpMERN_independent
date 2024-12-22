@@ -5,35 +5,29 @@ import Button from '../component/Button';
 
 function OtherRoute() {
     const navigate = useNavigate();
-    const [isError, setError] = useState(false);
+
     const [loading, setLoading] = useState(true);
     const [listItem, setListItem] = useState([]);
     const [todoItem, setTodoItem] = useState({ task: "", completed: false });
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const verify = await accessOtherRoute();
-                if (!verify.success) {
-                    navigate('/signin');
-                }
-            } catch (error) {
-                setError(true);
-            } finally {
-                setLoading(false);
+
+            const verify = await accessOtherRoute();
+            if (!verify.success) {
+                navigate('/signin');
             }
+            setLoading(false);
+
         };
 
         fetchData();
-    }, [navigate]);
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    if (isError) {
-        return <div>Something went wrong</div>;
-    }
 
     function handleTodoitem(event) {
         setTodoItem(prv => ({ ...prv, task: event.target.value }));

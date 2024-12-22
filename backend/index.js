@@ -3,9 +3,7 @@ const { verifySchemaMiddleware, verifySchema, userDatabaseCheckMiddleWare, addUs
 const { userjwtauthmiddleware, assignToken, verifyToken } = require('./middlewareAndFunction/userjwtauth');
 const cors = require('cors');
 const app = express();
-app.use(cors({
-    origin: 'http://localhost:5173' // Allow requests from this origin
-}));
+app.use(cors());
 app.use(express.json());
 
 app.post('/signup', verifySchemaMiddleware, async (req, res) => {

@@ -77,37 +77,45 @@ function verifySchema(req) {
  * @param {Function} next - The next middleware function.
  */
 async function userDatabaseCheckMiddleWare(req, res, next) {
-    // console.log(req.headers);
-    if (!req.headers.username) {
-        res.status(400).json({
-            success: false,
-            msg: "Wrong Input"
+    try {
+        // console.log(req.headers);
+        if (!req.headers.username) {
+            res.status(400).json({
+                success: false,
+                msg: "Wrong Input"
+            });
+            return;
+        }
+        const data = await User.findOne({
+            '$or': [{
+                username: req.headers.username
+            }, {
+                email: req.headers.username
+            }]
         });
-        return;
-    }
-    const data = await User.findOne({
-        '$or': [{
-            username: req.headers.username
-        }, {
-            email: req.headers.username
-        }]
-    });
 
-    if (data && data.password === req.headers.password) {
-        next();
-    } else if (data) {
-        res.status(401).json({
+        if (data && data.password === req.headers.password) {
+            next();
+        } else if (data) {
+            res.status(401).json({
+                success: false,
+                userMatch: true,
+                passMatch: false,
+                msg: "username match but pass does not"
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                userMatch: false,
+                passMatch: false,
+                msg: "user does not exist"
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
             success: false,
-            userMatch: true,
-            passMatch: false,
-            msg: "username match but pass does not"
-        });
-    } else {
-        res.status(404).json({
-            success: false,
-            userMatch: false,
-            passMatch: false,
-            msg: "user does not exist"
+            msg: "Internal server error",
+            error: err.message
         });
     }
 }

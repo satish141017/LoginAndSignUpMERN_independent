@@ -24,16 +24,8 @@ function Login() {
                 <Button
                     onClick={async () => {
                         const user = { username, password };
-                        console.log(user);
-
                         const res = await signinapi(user);
-                        console.log(res);
-
-                        if (res.success) {
-                            navigate('/otherRoute');
-                        } else {
-
-                        }
+                        if (res.success) navigate('/otherRoute');
                     }}
                     text="LogIn" />
                 <Switch login={true} />

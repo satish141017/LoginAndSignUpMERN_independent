@@ -27,9 +27,8 @@ function Signup() {
             <Button onClick={async () => {
                 const user = { email, username, name, password, address }
                 const res = await signupapi(user);
-                // here store the data in the localStorage
-                // console.log(res);
-                if (res.success) navigate('/otherRoute')
+                if (res.success) navigate('/otherRoute');
+
             }} text="Signup" />
             <Switch login={false} />
 
